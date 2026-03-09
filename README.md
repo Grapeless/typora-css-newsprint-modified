@@ -1,5 +1,5 @@
 # typora-css-newsprint-modified
-对原生newsprint主题的修改
+对原生typora主题newsprint的修改
 
 ## 需要配合一款字体使用
 请前往 [Maple Font Releases](https://github.com/subframe7536/maple-font/releases) 页面下载 **NF-CN → Normal-No-Ligature（hinted）** 字体文件。
