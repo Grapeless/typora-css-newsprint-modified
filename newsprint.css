@@ -53,6 +53,7 @@
 	--code-text-color: #292521;
 	--code-muted-color: #817a70;
 	--code-accent-color: #9b5146;
+	--code-selection-bg-color: #d8ccb8;
 	--inline-code-bg-color: #e4e1da;
 	--table-head-bg-color: #dfdcd4;
 	--table-stripe-bg-color: rgba(233, 231, 225, 0.62);
@@ -357,6 +358,8 @@ tt {
 
 /* Fenced code: align with the text column and reduce the heavy grey panel. */
 #write .md-fences {
+	--select-text-bg-color: var(--code-selection-bg-color);
+	--select-text-font-color: var(--code-text-color);
 	position: relative;
 	margin: 1.35em 0 3em;
 	padding: 1em 1.25em;
@@ -440,11 +443,12 @@ tt {
 	background-color: rgba(155, 81, 70, 0.62);
 }
 
-.md-fences .CodeMirror-selected,
-.md-fences .CodeMirror-line::selection,
-.md-fences .CodeMirror-line > span::selection,
-.md-fences .CodeMirror-line > span > span::selection {
-	background: rgba(155, 81, 70, 0.18) !important;
+#write .md-fences .CodeMirror-selected,
+#write .md-fences .CodeMirror-selectedtext {
+	background: var(--code-selection-bg-color) !important;
+	color: var(--code-text-color) !important;
+	border-radius: 3px;
+	text-shadow: none;
 }
 
 .md-fences .CodeMirror-activeline-background {
