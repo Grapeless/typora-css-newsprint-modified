@@ -41,13 +41,21 @@
 }
 
 :root {
-	--active-file-bg-color: #dadada;
 	--active-file-bg-color: rgba(32, 43, 51, 0.63);
 	--active-file-text-color: white;
 	--bg-color: #f3f2ee;
 	--text-color: #1f0909;
+	--mono-font-family: "Maple Mono NF CN Light", "JetBrains Mono", monospace;
 	--control-text-color: #444;
 	--rawblock-edit-panel-bd: #e5e5e5;
+	--code-bg-color: #e9e7e1;
+	--code-border-color: #d2cec4;
+	--code-text-color: #292521;
+	--code-muted-color: #817a70;
+	--code-accent-color: #9b5146;
+	--inline-code-bg-color: #e4e1da;
+	--table-head-bg-color: #dfdcd4;
+	--table-stripe-bg-color: rgba(233, 231, 225, 0.62);
 
 	--select-text-bg-color: rgba(32, 43, 51, 0.63);
 	--select-text-font-color: white;
@@ -66,40 +74,17 @@ html {
 html,
 body {
 	background-color: #f3f2ee;
-	font-family: "Maple Mono NL NF CN Light", "JetBrains Mono", monospace;
+	font-family: var(--mono-font-family);
 	/* 禁用连字，取消间隙，修改k,l,f斜体样式 */
 	font-feature-settings: 'calt' 1, 'cv01' 1, 'cv34' 1, 'cv35' 1, 'cv44' 1;
 	color: #1f0909;
 	line-height: 1.5em;
 }
 
-/*#write {
-	overflow-x: auto;
-    max-width: initial;
-	padding-left: calc(50% - 17em);
-    padding-right: calc(50% - 17em);
-}
-
-@media (max-width: 36em) {
- 	#write {
- 		padding-left: 1em;
-    	padding-right: 1em;
- 	}
-}*/
-
-/* #write {
-	max-width: 40em;
-}
-
-@media only screen and (min-width: 1400px) {
-	#write {
-		max-width: 914px;
-	}
-} */
-
 #write {
 	max-width: 48em;
 	margin: 0 auto;
+	tab-size: 4;
 }
 
 @media only screen and (min-width: 1400px) {
@@ -132,7 +117,6 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-	content: '';
 	content: none;
 }
 
@@ -143,11 +127,8 @@ table {
 
 /* styles */
 
-/* ====== */
-
 /* headings */
 
-h1,
 h2,
 h3,
 h4,
@@ -158,45 +139,40 @@ h6 {
 
 h1 {
 	font-size: 1.875em;
-	/*30 / 16*/
-	line-height: 1.6em;
-	/* 48 / 30*/
+	font-weight: normal;
+	line-height: 1.3em;
 	margin-top: 2em;
+	margin-bottom: 0.5em;
+	padding-bottom: 0.8125em;
+	border-bottom: 1px solid;
+	border-color: #c5c5c5;
 }
 
 h2,
 h3 {
-	font-size: 1.3125em;
-	/*21 / 16*/
 	line-height: 1.15;
-	/*24 / 21*/
 	margin-top: 2.285714em;
-	/*48 / 21*/
-	margin-bottom: 1.15em;
-	/*24 / 21*/
+	margin-bottom: .75em;
+}
+
+h2 {
+	font-size: 1.3125em;
 }
 
 h3 {
-	font-weight: normal;
+	font-size: 1.1875em;
 }
 
 h4 {
 	font-size: 1.125em;
-	/*18 / 16*/
 	margin-top: 2.67em;
-	/*48 / 18*/
+	margin-bottom: 1.5em;
 }
 
 h5,
 h6 {
 	font-size: 1em;
-	/*16*/
-}
-
-h1 {
-	border-bottom: 1px solid;
-	margin-bottom: 1.875em;
-	padding-bottom: 0.8125em;
+	margin-bottom: 1.5em;
 }
 
 /* links */
@@ -219,102 +195,310 @@ blockquote,
 	margin-bottom: 1.5em;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	margin-bottom: 1.5em;
-}
-
 /* blockquote */
 
 blockquote {
 	font-style: italic;
-	border-left: 5px solid;
-	margin-left: 2em;
-	padding-left: 1em;
+	margin: 1.4em 0 1.8em;
+	padding: 0.7em 1em;
+	border-left: 4px solid;
+	border-radius: 0 6px 6px 0;
+	background-color: rgba(228, 225, 218, 0.52);
+	border-color: #bababa;
+	color: #656565;
 }
 
 /* lists */
 
 ul,
 ol {
-	/* margin: 0 0 1.5em 1.5em; */
-	margin: 0 0 1.5em 2.4em;
+	margin: 0 0 1.5em 2ch;
 	padding-left: 0;
 }
 
-/* tables */
+/* Use a fixed marker gutter so bullets and numbers share one vertical axis. */
+#write ul > li:not(.md-task-list-item),
+#write ol > li {
+	position: relative;
+	list-style: none;
+}
+
+#write ul > li:not(.md-task-list-item) {
+	padding-left: 2.25ch;
+}
+
+#write ol > li {
+	padding-left: 2.5ch;
+}
+
+#write ul > li:not(.md-task-list-item)::before,
+#write ol > li::before {
+	position: absolute;
+	left: 0;
+	width: 2ch;
+	color: var(--text-color);
+	font-variant-numeric: tabular-nums;
+	text-align: left;
+}
+
+#write ul > li:not(.md-task-list-item)::before {
+	content: "\2022";
+	top: -0.12em;
+	font-size: 1.5em;
+	line-height: 1.2;
+}
+
+#write ul ul > li:not(.md-task-list-item)::before {
+	content: "\25E6";
+}
+
+#write ul ul ul > li:not(.md-task-list-item)::before {
+	content: "\25AA";
+}
+
+#write ol > li::before {
+	content: counter(list-item) ".";
+}
+
+#write li ol > li::before {
+	content: counter(list-item, lower-alpha) ".";
+}
+
+#write li li ol > li::before {
+	content: counter(list-item, lower-roman) ".";
+}
+
+/* Tables share the same visual frame as fenced code blocks. */
 .md-meta,
 .md-before,
 .md-after {
 	color: #999;
 }
 
-table {
-	margin-bottom: 1.5em;
-	/*24 / 16*/
-	font-size: 1em;
-	/* width: 100%; */
+#write table {
+	width: 100%;
+	margin: 1.35em 0 2em;
+	border: 1px solid var(--code-border-color);
+	border-collapse: separate;
+	border-spacing: 0;
+	border-radius: 8px;
+	background-color: rgba(255, 255, 255, 0.16);
+	box-shadow: 0 3px 10px rgba(48, 39, 31, 0.04);
+	font-size: 0.92em;
+	line-height: 1.55;
+	overflow: hidden;
 }
 
-thead th,
-tfoot th {
-	padding: .25em .25em .25em .4em;
-	text-transform: uppercase;
+#write table thead,
+#write table tfoot {
+	background-color: var(--table-head-bg-color);
 }
 
-th {
+#write table th {
+	padding: 0.72em 0.9em;
+	font-weight: 700;
 	text-align: left;
 }
 
-td {
+#write table td {
 	vertical-align: top;
-	padding: .25em .25em .25em .4em;
+	padding: 0.68em 0.9em;
+	transition: background-color 0.15s ease;
+}
+
+#write table th,
+#write table td {
+	border-right: 1px solid var(--code-border-color);
+	border-bottom: 1px solid var(--code-border-color);
+}
+
+#write table tbody tr:nth-child(even) {
+	background-color: var(--table-stripe-bg-color);
+}
+
+#write table tbody tr:hover {
+	background-color: rgba(155, 81, 70, 0.07);
+}
+
+#write table tr:last-child > th,
+#write table tr:last-child > td {
+	border-bottom: 0;
+}
+
+#write table tr > th:last-child,
+#write table tr > td:last-child {
+	border-right: 0;
 }
 
 code,
 .md-fences {
-	background-color: #dadada;
-	font-family: "Maple Mono NL NF CN Light", "JetBrains Mono", monospace;
+	font-family: var(--mono-font-family);
 	/* 禁用连字，取消间隙 */
 	font-feature-settings: 'calt' 1, 'cv01' 1;
-	border-radius: 6px;
-}
-
-
-code {
-	padding-left: 2px;
-	padding-right: 2px;
-}
-
-.md-fences {
-	margin-left: 1.5em;
-	margin-bottom: 3em;
-	padding-left: 1ch;
-	padding-right: 1ch;
-
-	/* margin: 0 0 1.5em 2.4em;
-	padding-left: 0; */
-
 }
 
 pre,
-code,
 tt {
 	font-size: .875em;
 	line-height: 1.714285em;
 }
 
-/* some fixes */
-
-h1 {
-	line-height: 1.3em;
-	font-weight: normal;
-	margin-bottom: 0.5em;
+/* Inline code: compact, warm and distinct from fenced code blocks. */
+#write code {
+	padding: 0.06em 0.3em;
+	color: #8a3f36;
+	background-color: var(--inline-code-bg-color);
+	border: 1px solid rgba(155, 81, 70, 0.16);
+	border-radius: 4px;
+	font-size: 0.82em;
+	line-height: inherit;
+	vertical-align: 0.02em;
 }
+
+/* Fenced code: align with the text column and reduce the heavy grey panel. */
+#write .md-fences {
+	position: relative;
+	margin: 1.35em 0 3em;
+	padding: 1em 1.25em;
+	color: var(--code-text-color);
+	background-color: var(--code-bg-color);
+	border: 1px solid var(--code-border-color);
+	border-radius: 8px;
+	box-shadow: 0 3px 10px rgba(48, 39, 31, 0.06);
+	font-size: 0.9em;
+	line-height: 1.7;
+	overflow: visible;
+}
+
+/* Keep the language selector below the frame instead of inside the code area. */
+#write .md-fences .code-tooltip {
+	right: 0;
+	bottom: -2.4em !important;
+}
+
+#write .md-fences .code-tooltip-content {
+	color: var(--control-text-color);
+	background-color: var(--bg-color);
+	border-color: var(--code-border-color);
+	border-radius: 5px;
+	box-shadow: 0 2px 8px rgba(48, 39, 31, 0.06);
+}
+
+/* Do not apply the inline-code pill inside exported fenced blocks. */
+#write pre code,
+#write .md-fences code {
+	padding: 0;
+	color: inherit;
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	font-size: inherit;
+	line-height: inherit;
+}
+
+/* Typora's CodeMirror editor inside fenced blocks. */
+.md-fences .CodeMirror,
+.md-fences .CodeMirror-scroll {
+	background: transparent;
+}
+
+.md-fences .CodeMirror-gutters {
+	background: transparent;
+	border-right: 1px solid var(--code-border-color);
+}
+
+.md-fences .CodeMirror-linenumber {
+	color: #aaa398;
+}
+
+.md-fences .CodeMirror-cursor {
+	border-left: 2px solid var(--code-accent-color);
+}
+
+.md-fences .CodeMirror-lines {
+	padding-top: 0.3em;
+	padding-bottom: 0.3em;
+}
+
+.md-fences ::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+.md-fences ::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.md-fences ::-webkit-scrollbar-thumb {
+	background-color: rgba(129, 122, 112, 0.48);
+	border: 2px solid transparent;
+	border-radius: 999px;
+	background-clip: padding-box;
+}
+
+.md-fences ::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(155, 81, 70, 0.62);
+}
+
+.md-fences .CodeMirror-selected,
+.md-fences .CodeMirror-line::selection,
+.md-fences .CodeMirror-line > span::selection,
+.md-fences .CodeMirror-line > span > span::selection {
+	background: rgba(155, 81, 70, 0.18) !important;
+}
+
+.md-fences .CodeMirror-activeline-background {
+	background: transparent;
+	border-radius: 4px;
+}
+
+.md-fences .CodeMirror-focused .CodeMirror-activeline-background {
+	background: rgba(255, 255, 255, 0.38);
+}
+
+/* A restrained syntax palette that remains readable on the warm background. */
+.cm-s-inner .cm-comment,
+.cm-s-inner .cm-quote {
+	color: var(--code-muted-color);
+	font-style: italic;
+}
+
+.cm-s-inner .cm-keyword,
+.cm-s-inner .cm-tag,
+.cm-s-inner .cm-error {
+	color: #98483f;
+}
+
+.cm-s-inner .cm-string,
+.cm-s-inner .cm-string-2 {
+	color: #58713a;
+}
+
+.cm-s-inner .cm-number,
+.cm-s-inner .cm-atom {
+	color: #9a662c;
+}
+
+.cm-s-inner .cm-def,
+.cm-s-inner .cm-variable-2,
+.cm-s-inner .cm-variable-3,
+.cm-s-inner .cm-type {
+	color: #76558a;
+}
+
+.cm-s-inner .cm-property,
+.cm-s-inner .cm-attribute,
+.cm-s-inner .cm-builtin {
+	color: #336b79;
+}
+
+.cm-s-inner .cm-operator,
+.cm-s-inner .cm-meta,
+.cm-s-inner .cm-qualifier {
+	color: #8b5542;
+}
+
+/* some fixes */
 
 p+ul,
 p+ol {
@@ -346,30 +530,12 @@ li li ol>li {
 	list-style-type: lower-roman;
 }
 
-h2,
-h3 {
-	margin-bottom: .75em;
-}
-
 hr {
 	border-top: none;
 	border-right: none;
 	border-bottom: 1px solid;
 	border-left: none;
-}
-
-h1 {
 	border-color: #c5c5c5;
-}
-
-blockquote {
-	border-color: #bababa;
-	color: #656565;
-}
-
-blockquote ul,
-blockquote ol {
-	margin-left: 2.4em;
 }
 
 .ty-table-edit {
@@ -382,10 +548,6 @@ thead {
 
 tr:nth-child(even) {
 	background: #e8e7e7;
-}
-
-hr {
-	border-color: #c5c5c5;
 }
 
 .task-list {
@@ -416,18 +578,14 @@ hr {
 #write pre.md-meta-block {
 	min-height: 1.875rem;
 	color: #555;
-	border: 0px;
+	border: 0;
 	background: transparent;
-	margin-top: -4px;
 	margin-left: 1em;
 	margin-top: 1em;
 }
 
 .md-image>.md-meta {
 	color: #9B5146;
-}
-
-.md-image>.md-meta {
 	font-family: Menlo, 'Ubuntu Mono', Consolas, 'Courier New', 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', serif;
 }
 
@@ -503,7 +661,7 @@ hr {
 
 .outline-expander:before {
 	content: "\f0da";
-	font-family: "Maple Mono NL NF CN Light", "JetBrains Mono", monospace;
+	font-family: var(--mono-font-family);
 	/* 禁用连字，取消间隙，修改k,l,f斜体样式 */
 	font-feature-settings: 'calt' 1, 'cv01' 1, 'cv34' 1, 'cv35' 1, 'cv44' 1;
 	font-size: 14px;
@@ -546,7 +704,7 @@ header,
 .context-menu,
 .megamenu-content,
 footer {
-	font-family: "Maple Mono NL NF CN Light", "JetBrains Mono", monospace;
+	font-family: var(--mono-font-family);
 	/* 禁用连字，取消间隙，修改k,l,f斜体样式 */
 	font-feature-settings: 'calt' 1, 'cv01' 1, 'cv34' 1, 'cv35' 1, 'cv44' 1;
 	color: #1f0909;
@@ -610,6 +768,7 @@ footer {
 
 .file-list-item {
 	color: #777;
+	opacity: 1 !important;
 }
 
 .file-list-item.active {
@@ -623,10 +782,6 @@ footer {
 
 .file-list-item.active .file-list-item-file-name {
 	font-weight: bold;
-}
-
-.file-list-item {
-	opacity: 1 !important;
 }
 
 .file-library-node.active>.file-node-background {
@@ -661,7 +816,6 @@ input {
 }
 
 /* https://github.com/typora/typora-issues/issues/2046 */
-.os-windows-7 strong,
 .os-windows-7 strong {
 	font-weight: 760;
 }
@@ -692,14 +846,10 @@ input {
 	background: #e0e0e0;
 	border-radius: 2px;
 	font-weight: 700;
-	color: inherit
+	color: inherit;
 }
 
 /* 控制编辑区文字的 Tab 显示宽度 */
-#write {
-	tab-size: 4;
-}
-
 pre,
 code {
 	tab-size: 4;
