@@ -62,11 +62,6 @@
 	--select-text-font-color: var(--text-color);
 }
 
-pre {
-	--select-text-bg-color: #36284e;
-	--select-text-font-color: #fff;
-}
-
 html {
 	font-size: 16px;
 	-webkit-font-smoothing: antialiased;
