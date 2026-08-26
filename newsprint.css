@@ -58,8 +58,8 @@
 	--table-head-bg-color: #dfdcd4;
 	--table-stripe-bg-color: rgba(233, 231, 225, 0.62);
 
-	--select-text-bg-color: rgba(32, 43, 51, 0.63);
-	--select-text-font-color: white;
+	--select-text-bg-color: #d8ccb8;
+	--select-text-font-color: var(--text-color);
 }
 
 pre {
