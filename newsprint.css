@@ -254,6 +254,7 @@ ol {
 
 #write ol > li::before {
 	content: counter(list-item) ".";
+	white-space: nowrap;
 }
 
 #write li ol > li::before {
@@ -563,6 +564,7 @@ tr:nth-child(even) {
 	display: inline-block;
 	width: 1.25rem;
 	height: 1.6rem;
+	font-family: "Maple Mono NL NF CN Light", "JetBrains Mono", monospace;
 	vertical-align: middle;
 	text-align: center;
 	color: #ddd;
