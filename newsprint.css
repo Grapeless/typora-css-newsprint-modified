@@ -257,12 +257,24 @@ ol {
 	white-space: nowrap;
 }
 
+#write li ol > li {
+	padding-left: 3.5ch;
+}
+
 #write li ol > li::before {
 	content: counter(list-item, lower-alpha) ".";
+	width: 3ch;
+	text-align: right;
+}
+
+#write li li ol > li {
+	padding-left: 4.5ch;
 }
 
 #write li li ol > li::before {
 	content: counter(list-item, lower-roman) ".";
+	width: 4ch;
+	text-align: right;
 }
 
 /* Tables share the same visual frame as fenced code blocks. */
