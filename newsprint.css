@@ -646,30 +646,262 @@ tr:nth-child(even) {
 	background-color: #f3f2ee;
 }
 
+/* Sidebar: a quiet paper index with restrained interaction states. */
 #typora-sidebar {
-	background-color: #f3f2ee;
-	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.375);
-	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.375);
-}
-
-.pin-outline #typora-sidebar {
-	background: inherit;
+	--side-bar-bg-color: #efeee9;
+	--sidebar-border-color: #d2cdc3;
+	--sidebar-muted-color: #796b66;
+	--sidebar-accent-color: #96675e;
+	--sidebar-heading-color: #321f1d;
+	--control-text-color: #493735;
+	--control-text-hover-color: #2f1b1a;
+	--item-hover-bg-color: #e8e5de;
+	--item-hover-text-color: var(--control-text-hover-color);
+	--active-file-bg-color: #e2ddd4;
+	--active-file-text-color: #291615;
+	--active-file-border-color: var(--sidebar-accent-color);
+	--primary-color: var(--sidebar-accent-color);
+	--window-border: 1px solid var(--sidebar-border-color);
+	color: var(--control-text-color);
+	background-color: var(--side-bar-bg-color);
+	border-right: 1px dashed #aaa196;
 	box-shadow: none;
-	border-right: 1px dashed;
 }
 
-.pin-outline #typora-sidebar:hover .outline-title-wrapper {
-	border-left: 1px dashed;
+/* Tabs retain the original underline, with quieter inactive labels. */
+#typora-sidebar .info-panel-tab {
+	color: var(--sidebar-muted-color);
+	opacity: 1;
 }
 
-.outline-item:hover {
-	background-color: #dadada;
-	border-left: 28px solid #dadada;
-	border-right: 18px solid #dadada;
+#typora-sidebar .info-panel-tab-title {
+	padding: 0.3em 0;
+	letter-spacing: 0.03em;
 }
 
-.typora-node .outline-item:hover {
-	border-right: 28px solid #dadada;
+#typora-sidebar .info-panel-tab:hover,
+#typora-sidebar.active-tab-files #info-panel-tab-file,
+#typora-sidebar.active-tab-outline #info-panel-tab-outline,
+#typora-sidebar.ty-show-search #info-panel-tab-search {
+	color: var(--active-file-text-color);
+}
+
+#typora-sidebar .info-panel-tab .info-panel-tab-border {
+	width: 44px;
+	height: 2px;
+	margin: 3px auto 0;
+}
+
+#typora-sidebar .ty-sidebar-search-panel {
+	border-color: var(--sidebar-border-color);
+}
+
+#typora-sidebar #file-library-search-input {
+	height: 28px;
+	padding-left: 9px;
+	color: var(--control-text-color);
+	background-color: #f4f2ed;
+	border: 1px solid var(--sidebar-border-color);
+	border-radius: 2px;
+}
+
+#typora-sidebar #file-library-search-input::placeholder {
+	color: var(--sidebar-muted-color);
+}
+
+#typora-sidebar #file-library-search-input:focus {
+	border-color: var(--sidebar-accent-color);
+	box-shadow: none;
+}
+
+/* Outline hierarchy relies on spacing and weight instead of decoration. */
+#typora-sidebar #outline-content {
+	padding: 6px 14px 20px;
+	line-height: 1.45;
+}
+
+#typora-sidebar .outline-item,
+#typora-sidebar .outline-item:hover {
+	display: flex;
+	align-items: baseline;
+	margin: 1px 0;
+	padding-top: 4px;
+	padding-right: 7px;
+	padding-bottom: 4px;
+	border: 0;
+}
+
+#typora-sidebar .outline-expander {
+	flex: 0 0 1.2em;
+	width: 1.2em;
+	height: auto;
+	padding-left: 2px;
+	color: var(--sidebar-muted-color);
+}
+
+#typora-sidebar .outline-label {
+	flex: 1;
+	min-width: 0;
+	color: inherit;
+	text-decoration: none;
+	overflow-wrap: anywhere;
+}
+
+#typora-sidebar .outline-h1 > .outline-item {
+	color: var(--sidebar-heading-color);
+	font-weight: 600;
+}
+
+#typora-sidebar .outline-item:hover {
+	background-color: var(--item-hover-bg-color);
+}
+
+#typora-sidebar .outline-item.outline-item-active,
+#typora-sidebar .outline-item-active > .outline-item {
+	color: var(--active-file-text-color);
+	background-color: var(--active-file-bg-color);
+	box-shadow: inset 2px 0 var(--active-file-border-color);
+}
+
+#typora-sidebar .outline-item.select {
+	outline-color: var(--sidebar-accent-color);
+	outline-offset: -1px;
+}
+
+/* File tree keeps native indentation and uses one visual cue per state. */
+#typora-sidebar #file-library-tree {
+	padding-right: 8px;
+	padding-left: 8px;
+}
+
+#typora-sidebar .file-node-content {
+	position: relative;
+	padding-right: 16px;
+}
+
+#typora-sidebar .file-node-root > .file-node-content {
+	margin-bottom: 7px;
+	padding-bottom: 8px;
+	color: var(--sidebar-heading-color);
+	border-bottom: 1px dashed var(--sidebar-border-color);
+}
+
+#typora-sidebar .file-tree-node[data-is-directory="true"] > .file-node-content .file-node-title {
+	font-weight: 500;
+}
+
+#typora-sidebar .file-node-root > .file-node-content .file-node-title {
+	font-weight: 600;
+}
+
+#typora-sidebar .file-node-title-ext-part,
+#typora-sidebar .file-list-item-file-ext-part {
+	font-size: 0.9em;
+	font-weight: 400;
+	opacity: 0.52;
+}
+
+#typora-sidebar .file-node-icon,
+#typora-sidebar .file-node-open-state {
+	color: var(--sidebar-muted-color);
+}
+
+#typora-sidebar .file-node-icon {
+	margin-right: 5px;
+}
+
+#typora-sidebar .file-node-icon.fa-folder::before {
+	content: "\f114";
+}
+
+#typora-sidebar .file-node-icon.fa-folder-open::before,
+#typora-sidebar .file-node-expanded > .file-node-content .file-node-icon.fa-folder::before {
+	content: "\f115";
+}
+
+#typora-sidebar .file-tree-node:not(.active):not(.file-node-root) > .file-node-content:hover {
+	background-color: var(--item-hover-bg-color);
+}
+
+#typora-sidebar .file-node-background {
+	background: transparent;
+	border: 0;
+	outline: 0;
+}
+
+#typora-sidebar .file-tree-node.select:not(.file-node-root) > .file-node-content {
+	outline: 1px solid var(--sidebar-accent-color);
+	outline-offset: -1px;
+}
+
+#typora-sidebar .file-tree-node.active > .file-node-content {
+	color: var(--active-file-text-color);
+	background-color: var(--active-file-bg-color);
+	box-shadow: inset 2px 0 var(--active-file-border-color);
+}
+
+#typora-sidebar .file-tree-node.active > .file-node-content .file-node-title-name-part {
+	font-weight: 600;
+}
+
+#typora-sidebar .file-tree-node.active > .file-node-content .file-node-icon {
+	color: var(--active-file-text-color);
+}
+
+/* File-list mode follows the same subdued states as the tree. */
+#typora-sidebar .file-list-item {
+	margin: 2px 8px;
+	padding: 9px 10px;
+	color: var(--control-text-color);
+	border-bottom: 0;
+}
+
+#typora-sidebar .file-list-item-file-name {
+	font-weight: 400;
+}
+
+#typora-sidebar .file-list-item-summary {
+	color: var(--sidebar-muted-color);
+}
+
+#typora-sidebar .file-list-item:hover {
+	background-color: var(--item-hover-bg-color);
+}
+
+#typora-sidebar .file-list-item.active {
+	color: var(--active-file-text-color);
+	background-color: var(--active-file-bg-color);
+	box-shadow: inset 2px 0 var(--active-file-border-color);
+}
+
+#typora-sidebar .file-list-item.active .file-list-item-file-name {
+	font-weight: 600;
+}
+
+#typora-sidebar .sidebar-footer {
+	color: var(--sidebar-muted-color);
+	border-top: var(--window-border);
+}
+
+#typora-sidebar .ty-side-sort-btn.active {
+	background-color: var(--active-file-bg-color);
+}
+
+#typora-sidebar ::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+	background: transparent;
+}
+
+#typora-sidebar ::-webkit-scrollbar-thumb {
+	background-color: rgba(98, 92, 84, 0.22);
+	border: 2px solid transparent;
+	background-clip: padding-box;
+}
+
+#typora-sidebar ::-webkit-scrollbar-thumb:hover,
+#typora-sidebar:hover div.sidebar-content-content::-webkit-scrollbar-thumb:horizontal {
+	background-color: rgba(98, 92, 84, 0.42);
 }
 
 .outline-expander:before {
@@ -769,42 +1001,6 @@ footer {
 
 .md-diagram-panel {
 	margin-top: 8px;
-}
-
-.file-list-item-file-name {
-	font-weight: initial;
-}
-
-.file-list-item-summary {
-	opacity: 1;
-}
-
-.file-list-item {
-	color: #777;
-	opacity: 1 !important;
-}
-
-.file-list-item.active {
-	background-color: inherit;
-	color: black;
-}
-
-.ty-side-sort-btn.active {
-	background-color: inherit;
-}
-
-.file-list-item.active .file-list-item-file-name {
-	font-weight: bold;
-}
-
-.file-library-node.active>.file-node-background {
-	background-color: rgba(32, 43, 51, 0.63);
-	background-color: var(--active-file-bg-color);
-}
-
-.file-tree-node.active>.file-node-content {
-	color: white;
-	color: var(--active-file-text-color);
 }
 
 .md-task-list-item>input {
